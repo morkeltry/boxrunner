@@ -1,0 +1,31 @@
+{
+  "name": "boxrunner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "event-stream": "4.0.1",
+    "express": "^4.16.3",
+    "http": "0.0.1-security",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "scripts": {
+    "dev": "nodemon  --signal SIGHUP src/index.js",
+    "devnosighup": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "noexpress": "nodemon  --signal SIGHUP src/expressless-proxy.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morkeltry/lunchcoin-doodle-proxy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://lunchcoin.xyz"
+}
