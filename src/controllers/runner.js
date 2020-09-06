@@ -9,9 +9,20 @@ const port = 7777;
 const incognito=' --incognito';
 const newWindow='';
 
-const execString = (url, overrideIncognito)=>
-  `google-chrome${newWindow}${overrideIncognito ? '' : incognito} ${url.slice(1).replace('%23','#')}` ;
+const addLinkShortener = url=>
+  ( url.startsWith('docs.google.com/') || url.startsWith('https://docs.google.com/'))
+    ? url+' rebrandly.com'
+    : url ;
 
+const processUrl = url=>
+addLinkShortener(
+  url
+    .slice(1)
+    .replace('%23','#')
+)
+
+const execString = (url, overrideIncognito)=>
+  `google-chrome${newWindow}${overrideIncognito ? '' : incognito} ${processUrl(url)}` ;
 
 const getResult = (originalUrl, ip)=> ({
   ip,
@@ -39,7 +50,7 @@ module.exports= {
       exec(execString(originalUrl));
     } else {
       console.log(ip,'not whitelisted');
-      exec(execString(` 127.0.0.1:${7777}/onlySelf${randomToken}.html?${originalUrl}`));
+      exec(execString(` 127.0.0.1:${port}/onlySelf${randomToken}.html?${originalUrl}`));
 
     }
         res.type('application/json');
