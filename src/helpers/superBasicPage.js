@@ -1,3 +1,12 @@
+const arrayFromString = string => (
+  Array.isArray(string)
+    ? string
+    : [string]
+  ).map (el=>
+    typeof el === 'number'
+      ? el.toString()
+      : (el || '')
+  )
 
 
 const htmlPage = contents=>
@@ -5,21 +14,19 @@ const htmlPage = contents=>
    <html lang="en">
     <head>
       <meta http-equiv="content-type" content="text/html; charset=utf-8">
-      ${contents.title && `<title>${contents.title}</title>`}
+      ${contents.title ? `<title>${contents.title}</title>` : ''}
     </head>
     <body>
-    ${contents.p &&
-      Array
-        .from(contents.p)
+    ${arrayFromString(contents.p)
         .map(content=>
           `<p>${content}</p>\n`
-      )}
-    ${contents.a &&
-      Array
-        .from(contents.a)
+        ).join('    ')
+    }
+    ${arrayFromString(contents.a)
         .map(content=>
-          `<a href="a">${content}</a>\n`
-      )}
+          `<a href="${content}">${content}</a>\n`
+        ).join('    ')
+    }
     </body>
    </html>
   ` ;
@@ -28,7 +35,7 @@ module.exports = (req, res, known)=> {
   const ip = known.ip || req.ip;
   const url = known.url || req.originalUrl;
 
-  res.type('application/text');
+  res.type('text/html');
   res.status(200);
   res.send( htmlPage({
     p: [`${ip} not whitelisted.`, 'Click the link if it looks safe!'],
